@@ -139,7 +139,7 @@ Last update: 2017-03-02
 
     queryString = decodeURIComponent(queryString.replace(/\+/g, " "));
     this._callbackURL = this._getParamByName("callback", queryString);
-     debugger;
+
     //set cookies for callback
     if(this._callbackURL !== ""){
       console.log("set callback url to cookies ", this._callbackURL);
