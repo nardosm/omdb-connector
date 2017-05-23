@@ -33,12 +33,12 @@ $(document).ready(function() {
     mstr.connectionName = "RawDataFiles";
     // connectionData is a JSON object. Connector can put any information here.
     mstr.connectionData = {};
-    mstr.connectionData.file = content;
+    //mstr.connectionData.file = content;
     // Get file type from extension
-    fileType = content.split('.').pop().toUpperCase();
-    if(fileType == "JSON"){
-      mstr.fileType = "JSON";
-    }
+    //fileType = content.split('.').pop().toUpperCase();
+    //if(fileType == "JSON"){
+      //mstr.fileType = "JSON";
+    //}
     // MUST define tableList field. Can import multiple tables in one connection
     mstr.tableList = [];
     mstr.tableList.push({tableName: "RawDataFiles"});
