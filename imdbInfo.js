@@ -3,7 +3,7 @@ var myConnector = mstr.createDataConnector();
     // Download the data
     myConnector.fetchTable = function(table, params, doneCallback) {
         var mstrObj = JSON.parse(params);
-        var url = "https://raw.githubusercontent.com/nardosm/omdb-connector/master/test.json";
+        var url = "https://github.microstrategy.com/raw/Tech/DataConnector/master/connectors/Test/Resources/RawDataJson.json?token=AAADVyMRiOmHmLCmHWqXUA_H8LoypjHbks5ZLaqSwA%3D%3D";
 
 		$.get(url,function(response){
 			table.appendRawData(response);
