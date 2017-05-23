@@ -3,7 +3,7 @@ var myConnector = mstr.createDataConnector();
     // Download the data
     myConnector.fetchTable = function(table, params, doneCallback) {
         var mstrObj = JSON.parse(params);
-        var url = "https://eventmanager-4c485.firebaseio.com/-Kkpnt0DxRpQeHvUp3Lv.json";
+        var url = "https://raw.githubusercontent.com/nardosm/omdb-connector/master/test.json";
 
 		$.get(url,function(response){
 			table.appendRawData(response);
