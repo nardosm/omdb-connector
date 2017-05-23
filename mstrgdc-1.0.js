@@ -143,6 +143,7 @@ Last update: 2017-03-02
     if(this._callbackURL !== ""){
       console.log("set callback url to cookies ", this._callbackURL);
       setCookie("callback", this._callbackURL, 1);  
+      debugger;
     }
     
     var uid = this._getParamByName("userId", queryString);
