@@ -1,48 +1,93 @@
-(function(){
-  var fileType; //define global variable
-  // mstr is a global object from mstrgdc-1.0.js, which represents the data connector framework
-  var myConnector = mstr.createDataConnector();
-  // Connector must define fetchTable function
-  myConnector.fetchTable = function(table, params, doneCallback) {       
-    // params represents information sent by connector to MSTR at interactive phase
-    var mstrObj = JSON.parse(params);
-    var file = mstrObj.connectionData.file;
-    var url = "https://eventmanager-4c485.firebaseio.com/-Kkpnt0DxRpQeHvUp3Lv.json";  
-	debugger;
-    // Retrieve file type from params
-    fileType = mstrObj.fileType;
-    $.get(url, function(resp) {
-      var data = resp;
-      if (fileType == "JSON"){
-        // resp is a JSON object. You need to transform it to a string.
-        data = JSON.stringify(resp);
-      }
-      table.appendRawData(data);
+function parseResponse(response,tableData){
+  resp = response.Search;
+  for (i = 0, len = resp.length; i < len; i++) {
+    tableData.push({
+      "Title": resp[i].Title,
+      "Year":parseInt(resp[i].Year),
+      "imdbID":resp[i].imdbID,
+      "Type":resp[i].Type,
+      "Poster":resp[i].Poster
+    });
+  }
+}
+
+// Create the connector object
+var myConnector = mstr.createDataConnector();
+var setTableSchema = function(tableSchema){
+  var cols = [{
+    name: "Title",
+    dataType: mstr.dataTypeEnum.string
+  }, {
+    name: "Year",
+    dataType: mstr.dataTypeEnum.int
+  }, {
+    name: "imdbID",
+    dataType: mstr.dataTypeEnum.string
+  }, {
+    name: "Type",
+    dataType: mstr.dataTypeEnum.string
+  }, {
+    name: "Poster",
+    dataType: mstr.dataTypeEnum.string
+  }];
+    tableSchema.column = cols;
+}
+
+  
+
+// Download the data
+
+myConnector.fetchTable = function(table, params, doneCallback) {
+  // mstrObj represents all useful information that the connector saved before sumbit
+  debugger;
+  var mstrObj = JSON.parse(params);
+  var dataObj = mstrObj.connectionData;
+  var tableData=[];
+  var baseUrl = "http://www.omdbapi.com/?s="+dataObj.value;
+  setTableSchema(table.tableSchema);
+  $.ajax(baseUrl).success(function(response) {
+    parseResponse(response,tableData);         
+    var total = parseInt(response.totalResults);
+    var pages = Math.ceil(total/10);
+    var ajaxArray = []
+    for (i=2;i<=pages;i++){
+      url = baseUrl + "&page="+i;
+      var a=$.ajax(url).done(
+        function(response){
+          parseResponse(response,tableData)
+        }
+      )
+      ajaxArray.push(a);
+    }
+    $.when.apply(null,ajaxArray).done(function(){
+      table.appendFormattedData(tableData);
       doneCallback(table);
     });
-  };
-  // validateDataConnector does the validation check of the connector
-  mstr.validateDataConnector(myConnector);
-});
+  });
+};
 
 
-// Create event listener for when the user submits the form
+// validateDataConnector will do validation check of the connector        
+mstr.validateDataConnector(myConnector);
+// Create event listeners for when the user submits the form
 $(document).ready(function() {
   $("#submitButton").click(function() {
-    var content = $("#file").val();
-    mstr.connectionName = "RawDataFiles";
-    // connectionData is a JSON object. Connector can put any information here.
-    mstr.connectionData = {};
-    //mstr.connectionData.file = content;
-    // Get file type from extension
-    //fileType = content.split('.').pop().toUpperCase();
-    //if(fileType == "JSON"){
-      //mstr.fileType = "JSON";
-    //}
-    // MUST define tableList field. Can import multiple tables in one connection
+	  debugger;
+    var content = $("#Search").val();
+    var dataObj = {
+      value:content
+    };
+    mstr.connectionData = dataObj;
+    // This will be the data source name in mstr
+    mstr.connectionName = "omdb";         
+    mstr.fileType = 'FORMAT_JSON';
+    var params = {};
+    mstr.connectionData = mstr.connectionData;
+    mstr.authenticationInfo = "";
+    mstr.authType = mstr.authTypeEnum.anonymous;
     mstr.tableList = [];
-    mstr.tableList.push({tableName: "RawDataFiles"});
-    // Inform that interactive phase is finished and send information to MSTR
+    mstr.tableList.push({tableName: "omdb"});
+    console.log(JSON.stringify(params));
     window.mstr.submit();
   });
 });
