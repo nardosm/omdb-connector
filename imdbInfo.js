@@ -25,7 +25,7 @@ var myConnector = mstr.createDataConnector();
             mstr.authenticationInfo = "";
             mstr.authType = mstr.authTypeEnum.anonymous;
             mstr.tableList = [];
-            mstr.tableList.push({tableName: "RawDataJson"});
+            mstr.tableList.push({tableName: "RawDataJson12"});
             console.log(JSON.stringify(params));
             window.mstr.submit();
             //window.close();
