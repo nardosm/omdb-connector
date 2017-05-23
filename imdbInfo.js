@@ -3,7 +3,7 @@ var myConnector = mstr.createDataConnector();
     // Download the data
     myConnector.fetchTable = function(table, params, doneCallback) {
         var mstrObj = JSON.parse(params);
-        var url = "http://json-schema.org/example/card.json";
+        var url = "./test.json";
 
 		$.get(url,function(response){
 			table.appendRawData(response);
