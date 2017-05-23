@@ -3,7 +3,7 @@ var myConnector = mstr.createDataConnector();
     // Download the data
     myConnector.fetchTable = function(table, params, doneCallback) {
         var mstrObj = JSON.parse(params);
-        var url = "http://github.microstrategy.com/raw/Tech/DataConnector/master/connectors/Test/Resources/RawDataJson.json?token=AAADVyMRiOmHmLCmHWqXUA_H8LoypjHbks5ZLaqSwA%3D%3D";
+        var url = "http://json-schema.org/example/card.json";
 
 		$.get(url,function(response){
 			table.appendRawData(response);
