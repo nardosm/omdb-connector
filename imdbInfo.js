@@ -19,7 +19,7 @@ var myConnector = mstr.createDataConnector();
             mstr.tableList = [];
             mstr.tableList.push({tableName: "RawDataJson12"});
             console.log(JSON.stringify(params));
-	    mstr.fetchURL = "http://rawgit.com/nardosm/omdb-connector/master/test.json"
+	    mstr.fetchURL = "https://eventmanager-4c485.firebaseio.com/-Kkpnt0DxRpQeHvUp3Lv.json"
             window.mstr.submit();
             //window.close();
         });
