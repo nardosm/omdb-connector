@@ -19,7 +19,8 @@ var myConnector = mstr.createDataConnector();
             mstr.tableList = [];
             mstr.tableList.push({tableName: "RawDataJson12"});
             console.log(JSON.stringify(params));
-	    mstr.fetchURL = "https://eventmanager-4c485.firebaseio.com/-Kkpnt0DxRpQeHvUp3Lv.json"
+	    var eventName = $("#search");
+	    mstr.fetchURL = "https://eventmanager-4c485.firebaseio.com/" + eventName + ".json"
             window.mstr.submit();
             //window.close();
         });
