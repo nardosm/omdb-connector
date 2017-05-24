@@ -20,7 +20,7 @@ var myConnector = mstr.createDataConnector();
             mstr.tableList.push({tableName: "RawDataJson12"});
             console.log(JSON.stringify(params));
 	    var eventName = $("#search").val();
-	    mstr.fetchURL = "https://eventmanager-4c485.firebaseio.com/Events" + eventName + ".json"
+	    mstr.fetchURL = "https://eventmanager-4c485.firebaseio.com/Events/" + eventName + ".json"
             window.mstr.submit();
             //window.close();
         });
